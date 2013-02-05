@@ -1,5 +1,16 @@
 var Game = function(){
 	var _this = this;
+	var sleep = 5;
+	this.imageList = {
+		"background": "http://localhost/cours-web-static/img/getImage.php?url=forest.jpg&sleep=" + sleep,
+		"player-idle": "/cours-web-static/img/getImage.php?url=sprite/idle-1-2-1.png&sleep=" + sleep,
+		"player-attack": "/cours-web-static/img/getImage.php?url=sprite/attack-1-2-1.png&sleep=" + sleep,
+		"player-move": "/cours-web-static/img/getImage.php?url=sprite/move-1-2-1.png&sleep=" + sleep,
+		"mob-idle": "/cours-web-static/img/getImage.php?url=sprite/idle-1.png&sleep=" + sleep,
+		"mob-damage": "/cours-web-static/img/getImage.php?url=sprite/damage-1.png&sleep=" + sleep,
+		"mob-attack": "/cours-web-static/img/getImage.php?url=sprite/attack-1.png&sleep=" + sleep,
+		"mob-death": "/cours-web-static/img/getImage.php?url=sprite/death-1.png&sleep=" + sleep
+	};
 	this.localTime = 0;
 	this.globalTime = 0;
 	
@@ -16,24 +27,28 @@ var Game = function(){
 	}
 	
 	infoPage.refreshData(userData);
-	scene = $("#main-scene");
+	this.canvas = document.getElementById("canvas");
+	this.graphics = this.canvas.getContext("2d");
+	
+	this.assetManager = new AssetManager();
+	this.assetManager.startLoading(this.imageList, this.soundList);
 
 	$("#gui").append($("<div>").button().append("Menu").click(function(){
 		$(win.root).toggle('fade', 200);
 	}));
-	$("#gui").append($("<div>").button().append("Logout").click(function()
-	{
+	$(win.root).hide();
+
+	$("#gui").append($("<div>").button().append("Déconnexion").click(function(){
 		location.href = "?logout";
 	}));
-	$(win.root).hide();
 	
-	player = new Player(scene);
-	camera = new Camera(scene, player);
+	player = new Player(this.assetManager);
+	camera = new Camera(player);
 
-	player.setPosition(3530, 1770);
+//	player.setPosition(3530, 1770);
 	
 	this.mobList = [];
-	this.popMob();
+//	this.popMob();
 	
 	requestAnimFrame(
 		function loop() {
@@ -46,7 +61,7 @@ Game.prototype.popMob = function(){
 	var _this = this;
 	
 	if(this.mobList.length < 10){
-		var ennemy = new Ennemy(scene);
+		var ennemy = new Ennemy(this.assetManager);
 		this.mobList.push(ennemy);
 	}
 	
@@ -60,10 +75,10 @@ Game.prototype.killMob = function(mob){
 		var newMobList = [];
 		for(var i = 0; i < _this.mobList.length; i++){
 			if(_this.mobList[i] != mob){
-				newMobList.push(mob);
+				newMobList.push(_this.mobList[i]);
 			}
 		}
-		mob.elm.remove();
+		_this.mobList = newMobList;
 	});
 };
 Game.prototype.mainLoop = function(){
@@ -72,5 +87,4 @@ Game.prototype.mainLoop = function(){
 	var localTimeDelta = Math.min(50, globalTimeDelta);
 	this.localTime += localTimeDelta;
 
-	player.update(localTimeDelta / 1000);
 };

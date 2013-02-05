@@ -1,9 +1,10 @@
 <?php
-require_once '../app/config.php';
+require_once('../app/config.php');
 
-coursWeb\App::handleConnectFrom();
-
-if(isset($_SESSION['user']))
+if(isset($_SESSION['user'])){
+	coursWeb\App::handleGameForm();
 	include TEMPLATES_PATH.'game.tpl';
-else
+}else{
+	coursWeb\App::handleConnectForm();
 	include TEMPLATES_PATH.'connect.tpl';
+}

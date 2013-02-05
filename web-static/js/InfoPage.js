@@ -40,7 +40,7 @@ InfoPage.prototype.refreshData = function(playerData){
 			break;
 		default:
 			if(typeof(this.attributeList[i]) != "undefined"){
-				this.attributeList[i].html(playerData[i]);
+				this.attributeList[i].html(playerData[i]).hide().show('pulsate');
 			}
 		}
 	}
