@@ -86,5 +86,19 @@ Game.prototype.mainLoop = function(){
 	var globalTimeDelta = now - this.globalTime;
 	var localTimeDelta = Math.min(50, globalTimeDelta);
 	this.localTime += localTimeDelta;
-
+	
+	var fadeDuration = 5000;
+	g = this.graphics;
+	g.now = now;
+	
+	// g.identity();
+	this.graphics.clearRect(0,0, this.canvas.width, this.canvas.height);
+	
+	this.assetManager.renderLoadingProgress(this.graphics);
+	
+	if(!this.assetManager.isDoneLoading() || (now - this.assetManager.loadingEndTime) < fadeDuration)
+		if(this.assetManager.isDoneLoading())
+		{
+			this.graphics.globalAlpha = Math.pow(1 - (now - this.assetManager.loadingEndTime) / fadeDuration, 3);
+		}
 };

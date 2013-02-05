@@ -77,8 +77,8 @@ class User{
 			if($res){
 				throw new \Exception('Login already exists');
 			}else{
-				$query = App::$db->prepare('INSERT INTO user (login,hash) VALUES (?,SHA1(?))');
-				if($query->execute(array($login, $password))){
+				$query = App::getDB()->prepare('INSERT INTO user (login,hash) VALUES (?,?)');
+				if($query->execute(array($login, \PasswordHashUtils::create_hash($password)))){
 					if(!self::login($login, $password)){
 						throw new \Exception('Registration failed');
 					}

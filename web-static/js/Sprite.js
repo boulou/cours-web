@@ -47,6 +47,8 @@ Sprite.prototype.render = function(g, revertDirection, decalFrame){
 		row = this.rowCount - row - 1;
 	}
 	
+	g.drawImage(this.img, col * this.imgWidth, row * this.imgHeight, this.imgWidth, this.imgHeight, 100, 100, this.width, this.height);
+	
 };
 Sprite.prototype.setCenter = function(x, y){
 	this.centerX = x;
