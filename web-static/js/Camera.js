@@ -63,4 +63,5 @@ Camera.prototype.setViewPosition = function(x, y){
 	this.y = y;
 };
 Camera.prototype.render = function(g){
+	g.translate(this.x, this.y);
 };

@@ -47,7 +47,14 @@ Sprite.prototype.render = function(g, revertDirection, decalFrame){
 		row = this.rowCount - row - 1;
 	}
 	
-	g.drawImage(this.img, col * this.imgWidth, row * this.imgHeight, this.imgWidth, this.imgHeight, 100, 100, this.width, this.height);
+	this.scale = this.scale > 1.3 ? 1.3 : this.scale < 0.65 ? 0.65 : this.scale;
+	
+	if(revertDirection)
+		g.scale(-this.scale,this.scale);
+	else
+		g.scale(this.scale, this.scale);
+	
+	g.drawImage(this.img, col * this.width, row * this.height, this.width, this.height, -this.centerX, -this.centerY, this.width, this.height);
 	
 };
 Sprite.prototype.setCenter = function(x, y){

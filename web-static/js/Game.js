@@ -1,6 +1,6 @@
 var Game = function(){
 	var _this = this;
-	var sleep = 5;
+	var sleep = 0.5;
 	this.imageList = {
 		"background": "http://localhost/cours-web-static/img/getImage.php?url=forest.jpg&sleep=" + sleep,
 		"player-idle": "/cours-web-static/img/getImage.php?url=sprite/idle-1-2-1.png&sleep=" + sleep,
@@ -11,6 +11,13 @@ var Game = function(){
 		"mob-attack": "/cours-web-static/img/getImage.php?url=sprite/attack-1.png&sleep=" + sleep,
 		"mob-death": "/cours-web-static/img/getImage.php?url=sprite/death-1.png&sleep=" + sleep
 	};
+	
+	this.soundList = 
+	{
+			"shot" : "/cours-web-static/audio/shot.mp3",
+			"music": "/cours-web-static/audio/music-fight.mp3"
+	};
+	
 	this.localTime = 0;
 	this.globalTime = 0;
 	
@@ -31,24 +38,31 @@ var Game = function(){
 	this.graphics = this.canvas.getContext("2d");
 	
 	this.assetManager = new AssetManager();
-	this.assetManager.startLoading(this.imageList, this.soundList);
+	this.assetManager.startLoading(this.imageList, this.soundList, function()
+		{
+			_this.assetManager.getSound("music").playLoop();
+		});
 
-	$("#gui").append($("<div>").button().append("Menu").click(function(){
+	var menuBar = $("<div>").attr("id", "buttons");
+	
+	$("#gui").append(menuBar);
+	
+	menuBar.append($("<div>").button().append("Menu").click(function(){
 		$(win.root).toggle('fade', 200);
 	}));
 	$(win.root).hide();
 
-	$("#gui").append($("<div>").button().append("Déconnexion").click(function(){
+	menuBar.append($("<div>").button().append("Déconnexion").click(function(){
 		location.href = "?logout";
 	}));
 	
 	player = new Player(this.assetManager);
 	camera = new Camera(player);
 
-//	player.setPosition(3530, 1770);
+	player.setPosition(3530, 1770);
 	
 	this.mobList = [];
-//	this.popMob();
+	this.popMob();
 	
 	requestAnimFrame(
 		function loop() {
@@ -90,15 +104,32 @@ Game.prototype.mainLoop = function(){
 	var fadeDuration = 5000;
 	g = this.graphics;
 	g.now = now;
+	g.deltaTime = localTimeDelta;
 	
-	// g.identity();
 	this.graphics.clearRect(0,0, this.canvas.width, this.canvas.height);
 	
-	this.assetManager.renderLoadingProgress(this.graphics);
+	if(this.assetManager.isDoneLoading())
+	{
+		g.save();
+			camera.render(g);
+			g.drawImage(this.assetManager.getImage("background"), 0, 0);
+			
+			player.update(g.deltaTime / 1000);
+			player.render(g);
+			
+			for(var i = 0 ; i < this.mobList.length ; i++)
+				this.mobList[i].render(g);
+		g.restore();
+	}
+	
+	// g.identity();
 	
 	if(!this.assetManager.isDoneLoading() || (now - this.assetManager.loadingEndTime) < fadeDuration)
+	{
 		if(this.assetManager.isDoneLoading())
-		{
 			this.graphics.globalAlpha = Math.pow(1 - (now - this.assetManager.loadingEndTime) / fadeDuration, 3);
-		}
+		this.assetManager.renderLoadingProgress(this.graphics);
+	}
+	
+	this.graphics.globalAlpha = 1;
 };

@@ -1,10 +1,7 @@
 <?php
 include 'common-header.tpl';
 ?>
-<link rel="stylesheet" type="text/css" href="/cours-web-static/css/base.css"/>
-<link rel="stylesheet" type="text/css" href="/cours-web-static/css/scene.css"/>
-<link rel="stylesheet" type="text/css" href="/cours-web-static/css/gui.css"/>
-<link rel="stylesheet" type="text/css" href="/cours-web-static/css/infos.css"/>
+<link rel="stylesheet" type="text/css" href="/cours-web-static/css/cours-web.css"/>
 <script type="text/javascript" src="/cours-web-static/js/Page.js"></script>
 <script type="text/javascript" src="/cours-web-static/js/Sprite.js"></script>
 <script type="text/javascript" src="/cours-web-static/js/InfoPage.js"></script>
@@ -17,6 +14,7 @@ include 'common-header.tpl';
 <script type="text/javascript" src="/cours-web-static/js/Game.js"></script>
 <script type="text/javascript" src="/cours-web-static/js/AssetManager.js"></script>
 <script type="text/javascript" src="/cours-web-static/js/main.js"></script>
+<script type="text/javascript" src="/cours-web-static/js/vendor/soundmanager2.js"></script>
 <script type="text/javascript">
 <?php
 echo 'var userData = '.$_SESSION['user']->toJSON().';';

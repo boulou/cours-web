@@ -12,7 +12,7 @@ if(!isset($_SESSION['user'])){
 		$result = array('error' => 'Missing action');
 	}else{
 		switch($requestData->action){
-			case 'mobKill':
+			case ACTION_TYPE_MOB_KILL:
 				$_SESSION['user']->addXP($requestData->data->killCount);
 				$result = array('xp' => $_SESSION['user']->getXP());
 				break;

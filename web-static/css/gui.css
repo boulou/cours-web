@@ -60,6 +60,13 @@
 	width: 100%;
 	height: 100%;
 }
+.window.visible
+{
+	animation-delay: 0s;
+    animation-duration: 6s;
+    animation-iteration-count: 1;
+    animation-name: menuEffect;
+}
 dl{
 	margin: 10px;
 }
@@ -80,3 +87,27 @@ dt:after{
 dd{
 	float: left;
 }
+
+#buttons
+{
+	position : absolute;
+	left: 0px;
+	top: 0px;
+	-webkit-transform : translate(-100%, 0%) rotate(-90deg);
+	-webkit-transform-origin : right top;
+}
+
+.ui-button:hover
+{
+	-webkit-transform : scale(1.1);
+}
+
+@-webkit-keyframes menuEffect
+{
+    from {
+        transform: rotate(0deg) translate(0px)
+    }
+    to {
+        transform: rotate(360deg) translate(400px)
+    }
+} 

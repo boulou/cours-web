@@ -32,13 +32,15 @@ Character.prototype.addPositionListener = function(listener){
 Character.prototype.render = function(g){
 
 	if(this.currentSprite){
-		this.currentSprite.render(g, this.revertDirection);
+		g.save();
+			g.translate(this.x, this.y);
+			this.currentSprite.render(g, this.revertDirection);
+		g.restore();
 	}
 };
 Character.prototype.setPosition = function(x, y){
 	this.x = x;
 	this.y = y;
-
 	
 //	this.elm.css("left", Math.round(x) + "px");
 //	this.elm.css("top", Math.round(y) + "px");

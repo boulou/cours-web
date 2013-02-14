@@ -7,5 +7,6 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 <script type="text/javascript" src="<?php echo WEB_STATIC_URI;?>js/vendor/aes.js"></script>
 <script type="text/javascript" src="<?php echo WEB_STATIC_URI;?>js/utils.js"></script>
+<script type="text/javascript" src="js.php"></script>
 
 <title>Cours Web</title>
